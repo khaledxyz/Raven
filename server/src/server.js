@@ -24,3 +24,4 @@ app.listen(PORT, () => {console.log(`
 
 // * ROUTES * //
 app.use('/api/goals', require('./routes/goalsRouter'));
+app.use('/api/users', require('./routes/usersRouter'));
