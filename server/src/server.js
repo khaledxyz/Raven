@@ -5,13 +5,11 @@ const cors = require('cors');
 const chalk = require('chalk');
 require("dotenv").config();
 
-// * App Settings * //
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors({origin: 'http://localhost:3000'}));
 app.use(bodyParser.json());
-app.set('trust proxy', 1)
 
 // * Connection * //
 app.listen(PORT, () => console.log(`
@@ -27,3 +25,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log(chalk.green(`   MongoDB Connected`))) 
 .catch(err => console.log(chalk.red(`${err})`)));
 // * The space before "MongoDB" is intentional, it is to align it in the Console.
+
+// * ROUTES * //
+app.use('/api/goals', require('./routes/goalsRouter'));
