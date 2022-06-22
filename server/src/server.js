@@ -1,18 +1,29 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+const cors = require('cors');
+const chalk = require('chalk');
+require("dotenv").config();
 
-const PORT = 5000;
-
+// * App Settings * //
 const app = express();
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, console.log(`Server live on http://localhost:${PORT}`));
+app.use(cors({origin: 'http://localhost:3000'}));
+app.use(bodyParser.json());
+app.set('trust proxy', 1)
+
+// * Connection * //
+app.listen(PORT, () => console.log(`
+    ${chalk.green('Dev server running at')}
+        > Local: ${chalk.blue(`http://localhost:${PORT}`)}
+        > Network: ${chalk.blue(`Not Enabled Yet.`)}
+`));
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(error => console.log(error));
-
-// * ROUTES * //
-app.use('/api', require('./routes/goalsRoutes'));
+.then(() => console.log(chalk.green(`   MongoDB Connected`))) 
+.catch(err => console.log(chalk.red(`${err})`)));
+// * The space before "MongoDB" is intentional, it is to align it in the Console.
