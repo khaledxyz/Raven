@@ -3,12 +3,14 @@ const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// * REGISTER * //
 // @desc    Register User
 // @route   POST /api/users
 // @acess   Public
 const registerUser = asyncHandler(async(req, res) => {
     const { username, email, password } = req.body;
-
+    console.log(req.body)
+    
     // Check if user exists
     const userExists = userModel.findOne({email});
     if(!userExists) {
@@ -38,6 +40,7 @@ const registerUser = asyncHandler(async(req, res) => {
     throw new Error('Something went wrong. Try again.')
 });
 
+// * LOGIN * //
 // @desc    Login User
 // @route   POST /api/users/login
 // @acess   Public
@@ -56,6 +59,7 @@ const loginUser = asyncHandler(async(req, res) => {
     res.status(401).json({message: 'Wrong Email or Password'});
 });
 
+// * SHOW USER DATA * //
 // @desc    Get user data
 // @route   GET /api/users/me
 // @acess   Private
@@ -63,7 +67,7 @@ const getUser = (req, res) => {
     res.status(200).json({user: req.user});
 };
 
-
+// * JWT * //
 const generateJWT = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET)
 };

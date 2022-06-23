@@ -10,18 +10,16 @@ const authenticate = asyncHandler(async (req, res, next) => {
         try {
             // Gets the token from header
             token = bearerToken.split(' ')[1];
-            console.log(token)
             
             // Verifies the token
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decodedToken)
 
             // Gets the user data
             req.user = await userModel.findById(decodedToken.id).select('-password');
             next();
         } 
         catch (error) {
-            console.log(error);
+            console.error(error);
             res.status(401);
             throw new Error('Not authorized. Invalid token signature.');
         }
