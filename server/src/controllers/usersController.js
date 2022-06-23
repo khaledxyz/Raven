@@ -1,13 +1,13 @@
 const asyncHandler = require('express-async-handler');
 const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // @desc    Register User
 // @route   POST /api/users
 // @acess   Public
 const registerUser = asyncHandler(async(req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body)
 
     // Check if user exists
     const userExists = userModel.findOne({email});
@@ -28,7 +28,11 @@ const registerUser = asyncHandler(async(req, res) => {
         password: hashedPassword
     });
 
-    if(user) return res.status(201).json({user});
+    if(user) 
+    return res.status(200).json({
+        message: 'Registered an account',
+        token: generateJWT(user._id)
+    });
 
     res.status(400)
     throw new Error('Something went wrong. Try again.')
@@ -37,15 +41,31 @@ const registerUser = asyncHandler(async(req, res) => {
 // @desc    Login User
 // @route   POST /api/users/login
 // @acess   Public
-const loginUser = (req, res) => {
-    res.status(200).json({message: 'Login User'});
-};
+const loginUser = asyncHandler(async(req, res) => {
+    const { email, password } = req.body;
+    // Finds the user
+    const user = await userModel.findOne({ email });
+
+    // Checks password with bcrypt.compare()
+    if(user && await bcrypt.compare(password, user.password)) 
+    return res.status(200).json({
+        message: 'Logged in',
+        token: generateJWT(user._id)
+    });
+
+    res.status(401).json({message: 'Wrong Email or Password'});
+});
 
 // @desc    Get user data
 // @route   GET /api/users/me
 // @acess   Public
 const getUser = (req, res) => {
     res.status(200).json({message: 'Display user data'});
+};
+
+
+const generateJWT = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET)
 };
 
 module.exports = { registerUser, loginUser, getUser };
