@@ -13,6 +13,7 @@
   "author": "khaledxyz",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
