@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const dotenv = require("dotenv").config();
 const chalk = require('chalk');
-require("dotenv").config();
+const internalIp = require('internal-ip');
+
 const { errorHandler } = require('./middleware/errorMiddleware');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,9 +19,9 @@ app.use(errorHandler);
 
 // * Connection * //
 app.listen(PORT, () => {console.log(`
-    ${chalk.green('Dev server running at')}
+    ${chalk.yellow('Dev server running at')}
         > Local: ${chalk.blue(`http://localhost:${PORT}`)}
-        > Network: ${chalk.blue(`Not Enabled Yet.`)}
+        > Network: ${chalk.blue(`http://${internalIp.v4.sync()}:${PORT}`)}
 `); connectDB()});
 
 // * ROUTES * //

@@ -8,7 +8,6 @@ const userModel = require('../models/userModel');
 // @acess   Private
 const getGoals = asyncHandler(async(req, res) => {
     const goals = await goalModel.find({user: req.user.id});
-    console.log(goals)
     res.status(200).json({goals})
 });
 
@@ -53,7 +52,6 @@ const updateGoal = asyncHandler(async(req, res) => {
 
     // Checks if logged-in user matches the goal's user
     if(goal.user.toString() !== user.id){
-        console.log(goal.user.toString(), user.id)
         res.status(401);
         throw new Error('Not authorized. Not your goal.');
         return;
@@ -73,7 +71,6 @@ const updateGoal = asyncHandler(async(req, res) => {
 // @acess   Private
 const deleteGoal = asyncHandler(async(req, res) => {
     const goal = await goalModel.findById(req.params.id);
-    console.log(goal)
     if(!goal) {
         res.status(404);
         throw new Error('Goal not found!');
@@ -90,7 +87,6 @@ const deleteGoal = asyncHandler(async(req, res) => {
 
     // Checks if logged-in user matches the goal's user
     if(goal.user.toString() !== user.id){
-        console.log(goal.user.toString(), user.id)
         res.status(401);
         throw new Error('Not authorized. Not your goal.');
         return;

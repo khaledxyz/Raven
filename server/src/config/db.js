@@ -4,12 +4,12 @@ const chalk = require('chalk');
 const connectDB = async () => {
     try{
         const connection = await mongoose.connect(process.env.MONGODB_URI);
-        console.log(chalk.green(`    Connected to MongoDB: ${connection.connection.host}`));
+        console.log(chalk.yellow(`    Connected to MongoDB: ${connection.connection.host}`));
     }
     catch(error){
-        console.log(error);
+        console.log(chalk.red(error));
         process.exit(1);
     }
 };
 
-module.exports = connectDB;
+module.exports = { connectDB };

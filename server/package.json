@@ -1,5 +1,5 @@
 {
-  "name": "raven",
+  "name": "raven_server",
   "version": "0.0.0",
   "description": "",
   "main": "./src/server.js",
@@ -24,6 +24,7 @@
     "mongoose": "^6.4.0"
   },
   "devDependencies": {
+    "internal-ip": "v6.2.0",
     "nodemon": "^2.0.16"
   }
 }

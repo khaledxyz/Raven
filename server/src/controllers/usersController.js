@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken');
 // @acess   Public
 const registerUser = asyncHandler(async(req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body)
     
     // Check if user exists
     const userExists = userModel.findOne({email});
