@@ -1,7 +1,7 @@
+import Register from "./pages/Register/Register";
+
 const App = () => {
-  return ( 
-    <h1>App</h1>
-   );
+  return <Register />
 }
  
 export default App;
